@@ -13,7 +13,7 @@ const JWT_SECRET =
 
 mongoose
     .connect(
-        "mongodb+srv://footballAPI:ufuoma123@footballapi.hqqfyac.mongodb.net/?retryWrites=true&w=majority"
+        "mongodb+srv://footballAPI:ufuoma123@footballapi.hqqfyac.mongodb.net/test"
     )
     .then(() => console.log("DB Connection Successfull"))
     .catch((err) => {
