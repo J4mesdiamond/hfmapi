@@ -95,10 +95,41 @@ try {
     } catch (error) {}
 });
 
+//Edit UserData
+app.post("/edituserData", async (req, res) => {
+    const { token } = req.body;
+    try {
+            const user = jwt.verify(token, JWT_SECRET, (err, res) => {
+        if (err) {
+            return "token expired";
+        }
+            return res;
+        });
+
+        if (user == "token expired") {
+            return res.send({ status: "error", data: "token expired" });
+        }
+    const useremail = user.email;
+        User.findOneAndUpdate(
+            { email: useremail },
+            { $set: req.body.updatedData }, // Replace 'updatedData' with the updated data you want to set
+            { new: true } // Set 'new' to true to return the updated document
+        )
+        .then((data) => {
+            res.send({ status: "ok", data: data });
+        })
+        .catch((error) => {
+            res.send({ status: "error", data: error });
+        });
+    } catch (error) {}
+});
+
+
+
 app.use(express.json())
 app.use(equityDetails)
 
 
-app.listen(5000, () => {
+app.listen(4000, () => {
     console.log("Backend Server is running!");
 });
