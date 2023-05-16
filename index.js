@@ -32,8 +32,8 @@ app.post("/register",async(req,res)=>{
     try {
         const oldUser = await User.findOne({ email });
 
-        if (oldUser) {
-            return res.send({ error: "User Exists" });
+        if (oldUser && pass != conpass) {
+            return res.send({ error: "User Exists or Password Not equals to Confirm Password isn't the same" });
         }
         await User.create({
             fname,
