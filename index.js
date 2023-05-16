@@ -42,7 +42,7 @@ app.post("/register",async(req,res)=>{
             email,
             pass:encryptedPassword,
             conpass,
-            accountBalance:0
+            accountBalance:""
         });
         res.send({ status: "ok" });
     } catch (error) {
