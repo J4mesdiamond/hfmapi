@@ -4,10 +4,10 @@ const mongoose = require("mongoose");
 app.use(express.json());
 const cors = require("cors");
 app.use(cors());
-const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const equityDetails = require("./equityRoutes")
+const getUserRoutes = require("./getUserRoutes")
 
 const JWT_SECRET = 
     "jhgvbndjvibu76789oeikrjntu890987y3h4jrtog987yh5jty9h8yh34ur8t90";
@@ -50,27 +50,6 @@ app.post("/register",async(req,res)=>{
         res.send({ status: "error"})
     }
 });
-
-router.get("/registerData", async (req,res) => {
-    try {
-        const result = await User.find()
-        if (!result) {
-            res.json({
-                status:"FAILED",
-                message:"registerData Details Not Registered Successfully"
-            })
-        } 
-        else {
-            res.json({
-                status:"SUCCESS",
-                message:"registerData Details Registered Successfully",
-                data:result
-            })
-        }
-    } catch (e) {
-        console.log(e)
-    }
-})
 
 //Log-In
 app.post("/login-user", async (req, res) => {
@@ -150,6 +129,7 @@ app.post("/edituserData", async (req, res) => {
 
 app.use(express.json())
 app.use(equityDetails)
+app.use(getUserRoutes)
 
 
 app.listen(4000, () => {
