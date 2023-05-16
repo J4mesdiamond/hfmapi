@@ -50,6 +50,27 @@ app.post("/register",async(req,res)=>{
     }
 });
 
+router.get("/registerData", async (req,res) => {
+    try {
+        const result = await User.find()
+        if (!result) {
+            res.json({
+                status:"FAILED",
+                message:"registerData Details Not Registered Successfully"
+            })
+        } 
+        else {
+            res.json({
+                status:"SUCCESS",
+                message:"registerData Details Registered Successfully",
+                data:result
+            })
+        }
+    } catch (e) {
+        console.log(e)
+    }
+})
+
 //Log-In
 app.post("/login-user", async (req, res) => {
     const { email, pass } = req.body;
