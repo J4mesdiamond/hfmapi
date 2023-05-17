@@ -26,30 +26,36 @@ require("./useDetails");
 const User=mongoose.model("Hfm")
 
 //Register
-app.post("/register",async(req,res)=>{
-    const {fname, lname, uname, email, pass, conpass,accountBalance} = req.body;
+app.post("/register", async (req, res) => {
+    const { fname, lname, uname, email, pass, conpass, accountBalance } = req.body;
 
-    const encryptedPassword = await bcrypt.hash(pass, 10)
+    if (pass !== conpass) {
+        return res.send({ error: "Password and Confirm Password do not match" });
+    }
+
+const encryptedPassword = await bcrypt.hash(pass, 10);
     try {
         const oldUser = await User.findOne({ email });
 
-        if (oldUser && pass != conpass) {
-            return res.send({ error: "User Exists or Password Not equals to Confirm Password isn't the same" });
-        }
-        await User.create({
-            fname,
-            lname,
-            uname,
-            email,
-            pass:encryptedPassword,
-            conpass,
-            accountBalance:0
-        });
+    if (oldUser) {
+        return res.send({ error: "User Exists" });
+    }
+    await User.create({
+        fname,
+        lname,
+        uname,
+        email,
+        pass: encryptedPassword,
+        conpass,
+        accountBalance: 0,
+    });
+
         res.send({ status: "ok" });
     } catch (error) {
-        res.send({ status: "error"})
+        res.send({ status: "error" });
     }
 });
+
 
 //Log-In
 app.post("/login-user", async (req, res) => {
